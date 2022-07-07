@@ -1,3 +1,8 @@
 # Environments
 .drdoenv
 drdoenv/
+.Drdo/
+venv
+*.pyc
+.DS_Store
+.env
