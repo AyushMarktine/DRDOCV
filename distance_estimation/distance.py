@@ -4,7 +4,7 @@ import cv2
 
 
 # step 1 - load the model
-net = cv2.dnn.readNet(r'best02.onnx')
+net = cv2.dnn.readNet(r'best_3.onnx')
 # step 2 - feed a 640x640 image to get predictions
 def format_yolov5(frame):
 
@@ -14,19 +14,32 @@ def format_yolov5(frame):
     result[0:row, 0:col] = frame
     return result
 
-
-avg_heights = {'biker': 1, 
-                'car': 1.6 , 
-                'pedestrian':1.5,
-                 'trafficLight':1.6 ,
-                  'trafficLight-Green':1.6 ,
-                   'trafficLight-GreenLeft':1.6 ,
-                    'trafficLight-Red':1.6 ,
-                     'trafficLight-RedLeft':1.6 ,
-                      'trafficLight-Yellow':1.6 ,
-                       'trafficLight-YellowLeft':1.6 ,
-                        'truck': 1.6 }
-
+avg_heights = {"bicycle": 1,
+                 "bus": 1,
+                  "traffic sign": 1,
+                   "train": 1,
+                    "motorcycle": 1,
+                     "car": 1,
+                      "traffic light": 1,
+                       "person": 1,
+                        "vehicle fallback": 1,
+                         "truck": 1,
+                          "autorickshaw": 1,
+                           "animal": 1,
+                            "caravan": 1,
+                             "rider": 1,
+                              "trailer": 1}
+# avg_heights = {'biker': 1, 
+#                 'car': 1.6 , 
+#                 'pedestrian':1.5,
+#                  'trafficLight':1.6 ,
+#                   'trafficLight-Green':1.6 ,
+#                    'trafficLight-GreenLeft':1.6 ,
+#                     'trafficLight-Red':1.6 ,
+#                      'trafficLight-RedLeft':1.6 ,
+#                       'trafficLight-Yellow':1.6 ,
+#                        'trafficLight-YellowLeft':1.6 ,
+#                         'truck': 1.6 }
 
 def fn_show_bbox_and_distance(image : str, net, focal_length=0, find_focal = False, measured_distance = 0, confidence_thresh=.70):
 
@@ -47,7 +60,8 @@ def fn_show_bbox_and_distance(image : str, net, focal_length=0, find_focal = Fal
     y_factor =  image_height / 640
 
 
-    class_list = ['biker', 'car', 'pedestrian', 'trafficLight', 'trafficLight-Green', 'trafficLight-GreenLeft', 'trafficLight-Red', 'trafficLight-RedLeft', 'trafficLight-Yellow', 'trafficLight-YellowLeft', 'truck']
+    class_list = ["bicycle", "bus", "traffic sign", "train", "motorcycle", "car", "traffic light", "person", "vehicle fallback", "truck", "autorickshaw", "animal", "caravan", "rider", "trailer"]
+    # ['biker', 'car', 'pedestrian', 'trafficLight', 'trafficLight-Green', 'trafficLight-GreenLeft', 'trafficLight-Red', 'trafficLight-RedLeft', 'trafficLight-Yellow', 'trafficLight-YellowLeft', 'truck']
 
     for r in range(25200): # fixed
         row = output_data[r]
@@ -118,7 +132,7 @@ def fn_show_bbox_and_distance(image : str, net, focal_length=0, find_focal = Fal
             cv2.putText(image, class_list[class_id], (box[0], box[1] - 5), cv2.FONT_HERSHEY_SIMPLEX, .5, (0,255,0), thickness=2)
             
     temp_path = path.split("\\")[-1]
-    cv2.imwrite(rf"TestImages\new\tuned_preds\{temp_path}", image)
+    cv2.imwrite(rf"TestImages\new\tuned_preds\10k_trained\{temp_path}", image)
 
 
 """
@@ -141,7 +155,7 @@ for path in paths:
                                 net = net,
                                 focal_length=f,
                                 # real_height=1.6,
-                                confidence_thresh = .60)
+                                confidence_thresh = .20)
 
 
 """
