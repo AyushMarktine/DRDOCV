@@ -1,0 +1,5 @@
+train: /root/Downloads/yolov5/train/
+val: /root/Downloads/yolov5/valid/
+
+nc: 15
+names: ["bicycle", "bus", "traffic sign", "train", "motorcycle", "car", "traffic light", "person", "vehicle fallback", "truck", "autorickshaw", "animal", "caravan", "rider", "trailer"]
